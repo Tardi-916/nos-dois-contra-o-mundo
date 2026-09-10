@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Um Convite Especial</title>
     <style>
-        /* Estilos e Cores (Fácil de personalizar) */
         :root {
             --bg-color: #ffe6eb;
             --text-color: #333;
@@ -23,7 +22,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden; /* Importante para o botão não gerar barra de rolagem */
+            overflow: hidden; /* Fundamental para o botão 'Sim' não quebrar a tela ao crescer */
         }
 
         .container {
@@ -32,27 +31,33 @@
             padding: 20px;
             text-align: center;
             box-sizing: border-box;
+            z-index: 1;
         }
 
         .hidden {
             display: none !important;
         }
 
-        /* Imagens e Textos */
         img.gif-imagem {
             max-width: 200px;
             border-radius: 15px;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
         }
 
         h1, h2 {
             margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Botões Iniciais */
+        /* Centralização inicial dos botões */
         .btn-group {
-            position: relative;
-            height: 100px; /* Espaço para o botão fujão se mover perto do Sim */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
             margin-top: 20px;
         }
 
@@ -63,25 +68,22 @@
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            transition: transform 0.2s;
         }
 
         #btn-yes {
             background-color: var(--yes-btn);
             color: white;
+            transition: transform 0.3s ease; /* Animação suave de crescimento */
+            z-index: 5; /* Fica acima dos outros elementos quando crescer */
         }
-
-        #btn-yes:active { transform: scale(0.95); }
 
         #btn-no {
             background-color: var(--no-btn);
             color: white;
-            position: absolute;
-            /* Centralizado inicialmente ao lado do sim */
-            left: 60%; 
+            transition: left 0.2s ease, top 0.2s ease;
+            z-index: 10;
         }
 
-        /* Formulário de Agendamento */
         form {
             display: flex;
             flex-direction: column;
@@ -112,16 +114,13 @@
 </head>
 <body>
 
-    <!-- MÚSICA DE FUNDO -->
-    <!-- Coloque o caminho da sua música no 'src' -->
     <audio id="bg-music" src="sua-musica.mp3" loop preload="auto"></audio>
 
-    <!-- TELA 1: O Convite -->
+    <!-- TELA 1 -->
     <div id="screen1" class="container">
-        <!-- Substitua pelo link de um GIF fofo ou foto de vocês -->
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGZjZWVxeG9qZnp4aXJ6b2h0eTN2M3A5Z3o0Ynp6b2g3Y3E0b2hxeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BRv0ThflsHCqDrG/giphy.gif" alt="Ursinho fofo" class="gif-imagem" id="main-gif">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGZjZWVxeG9qZnp4aXJ6b2h0eTN2M3A5Z3o0Ynp6b2g3Y3E0b2hxeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BRv0ThflsHCqDrG/giphy.gif" alt="Ursinho fofo" class="gif-imagem">
         
-        <h1 id="main-question">Você aceita sair comigo?</h1>
+        <h1>Você aceita sair comigo?</h1>
         
         <div class="btn-group">
             <button id="btn-yes">Sim!</button>
@@ -129,12 +128,10 @@
         </div>
     </div>
 
-    <!-- TELA 2: O Calendário e Opções -->
+    <!-- TELA 2 -->
     <div id="screen2" class="container hidden">
         <h2>Perfeito! Escolha os detalhes:</h2>
-        
         <form id="date-form">
-            <!-- A tag name="" é o que vai aparecer no relatório que você vai receber -->
             <label for="data">Qual dia?</label>
             <input type="date" id="data" name="Data_Escolhida" required>
 
@@ -150,12 +147,11 @@
                 <option value="Tomar um Sorvete">Tomar um Sorvete</option>
                 <option value="Surpresa (Você escolhe)">Surpresa (Deixa comigo)</option>
             </select>
-
             <button type="submit" id="btn-submit">Confirmar Encontro</button>
         </form>
     </div>
 
-    <!-- TELA 3: Confirmação -->
+    <!-- TELA 3 -->
     <div id="screen3" class="container hidden">
         <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcG8zcHV5bW84cGkxeThqb2hxd2h6M2h2czB1eGk2NzN2aG83Y3E5dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Gato feliz" class="gif-imagem">
         <h2>Tudo certo!</h2>
@@ -163,7 +159,6 @@
     </div>
 
     <script>
-        // Referências dos elementos
         const screen1 = document.getElementById('screen1');
         const screen2 = document.getElementById('screen2');
         const screen3 = document.getElementById('screen3');
@@ -173,53 +168,60 @@
         const bgMusic = document.getElementById('bg-music');
         const btnSubmit = document.getElementById('btn-submit');
 
-        // Lógica do Botão Fujão (Não)
+        let yesScale = 1; // Controla o tamanho do botão SIM
+
         const moveButton = () => {
-            // Pega as dimensões da janela e do botão
+            // Se for a primeira vez que foge, muda para fixed para sair do flexbox
+            if (btnNo.style.position !== 'fixed') {
+                btnNo.style.position = 'fixed';
+            }
+
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
             const btnWidth = btnNo.offsetWidth;
             const btnHeight = btnNo.offsetHeight;
 
-            // Calcula posições aleatórias garantindo que o botão não saia da tela
+            // Mantém o botão dentro dos limites visíveis da tela
             const randomX = Math.floor(Math.random() * (windowWidth - btnWidth));
             const randomY = Math.floor(Math.random() * (windowHeight - btnHeight));
 
-            // Aplica a nova posição
-            btnNo.style.position = 'absolute';
             btnNo.style.left = `${randomX}px`;
             btnNo.style.top = `${randomY}px`;
+
+            // Aumenta o tamanho do botão SIM a cada tentativa
+            yesScale += 0.3; // Você pode aumentar/diminuir esse valor para crescer mais rápido ou devagar
+            btnYes.style.transform = `scale(${yesScale})`;
         };
 
-        // Eventos para desktop (mouse) e mobile (toque)
+        // Fogem quando o cursor passa por cima (PC) ou ao iniciar o toque (Mobile)
         btnNo.addEventListener('mouseover', moveButton);
         btnNo.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Evita o clique acidental no mobile antes de mover
+            e.preventDefault(); 
             moveButton();
         });
 
-        // Lógica do Botão Sim
+        // Se a pessoa for um ninja e conseguir clicar, o botão some
+        btnNo.addEventListener('click', (e) => {
+            e.preventDefault();
+            btnNo.style.display = 'none';
+        });
+
         btnYes.addEventListener('click', () => {
-            // Toca a música (navegadores exigem interação do usuário antes de tocar áudio)
             bgMusic.play().catch(err => console.log("Áudio bloqueado pelo navegador."));
-            
-            // Troca as telas
             screen1.classList.add('hidden');
             screen2.classList.remove('hidden');
         });
 
-        // Lógica do Formulário (Enviar dados para você)
         dateForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Evita que a página recarregue
+            e.preventDefault(); 
             
-            // Muda o texto do botão para dar feedback visual
             btnSubmit.innerText = "Enviando...";
             btnSubmit.disabled = true;
 
             const formData = new FormData(dateForm);
 
             try {
-                // COLE SUA URL DO FORMSPREE AQUI NA LINHA DE BAIXO
+                // LEMBRE DE COLOCAR SUA URL DO FORMSPREE AQUI
                 const formspreeURL = "https://formspree.io/f/SUA_CHAVE_AQUI"; 
 
                 const response = await fetch(formspreeURL, {
@@ -229,7 +231,6 @@
                 });
 
                 if (response.ok) {
-                    // Troca para a tela final
                     screen2.classList.add('hidden');
                     screen3.classList.remove('hidden');
                 } else {
