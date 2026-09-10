@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Um Convite Especial</title>
     <style>
-        /* Reset para remover qualquer borda branca padrão do navegador */
         * {
             margin: 0;
             padding: 0;
@@ -14,7 +13,6 @@
             outline: none;
         }
 
-        /* Ambientação Romântica */
         :root {
             --bg-gradient: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
             --text-color: #612340;
@@ -28,22 +26,22 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg-gradient);
             color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
+            position: relative;
         }
 
+        /* Container padrão invisível para posicionamento */
         .container {
-            width: 90%;
-            max-width: 400px;
-            padding: 30px 25px;
-            text-align: center;
-            background: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(255, 77, 121, 0.2);
-            backdrop-filter: blur(5px);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
             z-index: 1;
         }
 
@@ -54,27 +52,96 @@
         img.gif-imagem {
             max-width: 180px;
             border-radius: 15px;
-            margin-bottom: 15px;
-            position: relative;
             z-index: 2;
         }
 
-        h1, h2 {
+        /* --- TELA 1 (Layout Personalizado) --- */
+        #screen1 {
+            justify-content: flex-start;
+        }
+
+        #screen1 .gif-imagem {
+            position: absolute;
+            top: 10%; /* Mais acima */
+        }
+
+        #screen1 h1 {
+            position: absolute;
+            top: 40%; /* Centralizado na tela */
+            text-align: center;
+            width: 100%;
+            font-size: 1.8rem;
+            color: #ff4d79;
+            padding: 0 20px;
+        }
+
+        #screen1 .btn-group {
+            position: absolute;
+            top: 75%; /* 3/4 do topo de distância */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 50px; /* Mais separadas */
+            z-index: 10;
+        }
+
+        /* --- TELA 2 (Formulário com Fundo Branco) --- */
+        #screen2 {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .white-box {
+            width: 90%;
+            max-width: 400px;
+            padding: 30px 25px;
+            text-align: center;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 77, 121, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .gifs-lado-a-lado {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .gifs-lado-a-lado .gif-imagem {
+            width: 48%; /* Ocupam metade do espaço cada */
+            max-width: 130px;
+            margin-bottom: 0;
+        }
+
+        .white-box h2 {
             margin-bottom: 20px;
             font-size: 1.6rem;
             color: #ff4d79;
         }
 
-        .btn-group {
-            display: flex;
+        /* --- TELA 3 (Final) --- */
+        #screen3 {
             justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 10;
+            text-align: center;
+            padding: 20px;
         }
 
+        #screen3 h2 {
+            font-size: 2rem;
+            color: #ff4d79;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        #screen3 p {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Botões */
         button {
             padding: 12px 30px;
             font-size: 18px;
@@ -99,7 +166,7 @@
             z-index: 10;
         }
 
-        /* Estilo do Formulário */
+        /* Formulário */
         form {
             display: flex;
             flex-direction: column;
@@ -135,7 +202,7 @@
 </head>
 <body>
 
-    <audio id="bg-music" src="just-the-two-of-us.mp3" loop preload="auto"></audio>
+    <audio id="bg-music" src="just-the-two-of-us.mpeg" loop preload="auto"></audio>
 
     <!-- TELA 1 -->
     <div id="screen1" class="container">
@@ -149,30 +216,37 @@
         </div>
     </div>
 
-    <!-- TELA 2 -->
+    <!-- TELA 2 (Com a caixa branca centralizada) -->
     <div id="screen2" class="container hidden">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjR6cTVpd3AwcXh6MXIzeWV4MWo3dDhyc2ZzZ281aHA0MGY0ZmhkYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VbnUQpnihPSIgIXuZv/giphy.gif" alt="Gatinho fofo" class="gif-imagem">
-        
-        <h2>Perfeito! Escolha os detalhes:</h2>
-        
-        <form id="date-form">
-            <label for="data">Qual dia?</label>
-            <input type="date" id="data" name="Data_Escolhida" required>
+        <div class="white-box">
+            <div class="gifs-lado-a-lado">
+                <!-- Gatinho Esquerda -->
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjR6cTVpd3AwcXh6MXIzeWV4MWo3dDhyc2ZzZ281aHA0MGY0ZmhkYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VbnUQpnihPSIgIXuZv/giphy.gif" alt="Gatinho 1" class="gif-imagem">
+                <!-- Gatinho Direita (Adicionado um novo gif fofo) -->
+                <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="Gatinho 2" class="gif-imagem">
+            </div>
+            
+            <h2>Perfeito! Escolha os detalhes:</h2>
+            
+            <form id="date-form">
+                <label for="data">Qual dia?</label>
+                <input type="date" id="data" name="Data_Escolhida" required>
 
-            <label for="hora">Que horas?</label>
-            <input type="time" id="hora" name="Hora_Escolhida" required>
+                <label for="hora">Que horas?</label>
+                <input type="time" id="hora" name="Hora_Escolhida" required>
 
-            <label for="local">Onde vamos?</label>
-            <select id="local" name="Local_Escolhido" required>
-                <option value="" disabled selected>Selecione uma opção...</option>
-                <option value="Jantar Romântico">Jantar Romântico</option>
-                <option value="Cinema">Cinema</option>
-                <option value="Caminhada">Caminhada</option>
-                <option value="Tomar um Sorvete">Tomar um Sorvete</option>
-                <option value="Surpresa (Você escolhe)">Surpresa (Deixa comigo)</option>
-            </select>
-            <button type="submit" id="btn-submit">Confirmar Encontro</button>
-        </form>
+                <label for="local">Onde vamos?</label>
+                <select id="local" name="Local_Escolhido" required>
+                    <option value="" disabled selected>Selecione uma opção...</option>
+                    <option value="Jantar Romântico">Jantar Romântico</option>
+                    <option value="Cinema">Cinema</option>
+                    <option value="Caminhada">Caminhada</option>
+                    <option value="Tomar um Sorvete">Tomar um Sorvete</option>
+                    <option value="Surpresa (Você escolhe)">Surpresa (Deixa comigo)</option>
+                </select>
+                <button type="submit" id="btn-submit">Confirmar Encontro</button>
+            </form>
+        </div>
     </div>
 
     <!-- TELA 3 -->
@@ -192,20 +266,32 @@
         const bgMusic = document.getElementById('bg-music');
         const btnSubmit = document.getElementById('btn-submit');
 
+        // Tenta tocar a música assim que houver qualquer interação na tela inicial
+        document.body.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play().catch(() => console.log("Aguardando interação."));
+            }
+        }, { once: true });
+        
+        document.body.addEventListener('touchstart', () => {
+            if (bgMusic.paused) {
+                bgMusic.play().catch(() => console.log("Aguardando interação."));
+            }
+        }, { once: true });
+
         let yesScale = 1;
-        const maxScale = 2.2; // Limite de tamanho: 2.2x o tamanho original
-        let isTeleporting = false; // Trava de segurança para evitar cliques duplicados
+        const maxScale = 7; // Agora cresce até 7 vezes o tamanho original
+        let isTeleporting = false; 
 
         const teleportButton = (e) => {
             e.preventDefault(); 
             
-            // Se já estiver no meio da animação, ignora o novo clique
             if (isTeleporting) return;
             isTeleporting = true;
             
-            // Cresce o botão SIM mais rápido (0.6 por clique), até o limite estipulado
+            // Aumenta em passos maiores para chegar ao tamanho 7 em poucos toques
             if (yesScale < maxScale) {
-                yesScale += 0.6; 
+                yesScale += 1.5; 
                 if (yesScale > maxScale) yesScale = maxScale;
                 btnYes.style.transform = `scale(${yesScale})`;
             }
@@ -231,7 +317,6 @@
                 btnNo.style.opacity = '1';
                 btnNo.style.pointerEvents = 'auto';
                 
-                // Libera a trava para o próximo clique
                 isTeleporting = false;
             }, 250); 
         };
@@ -240,6 +325,7 @@
         btnNo.addEventListener('touchstart', teleportButton);
 
         btnYes.addEventListener('click', () => {
+            // Garante que a música toque caso não tenha tocado antes
             bgMusic.play().catch(err => console.log("Áudio bloqueado pelo navegador."));
             screen1.classList.add('hidden');
             screen2.classList.remove('hidden');
@@ -254,7 +340,6 @@
             const formData = new FormData(dateForm);
 
             try {
-                // A chave original foi mantida
                 const formspreeURL = "https://formspree.io/f/mwlkynng"; 
 
                 const response = await fetch(formspreeURL, {
