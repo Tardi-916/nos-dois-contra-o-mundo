@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Um Convite Especial</title>
+    <style>
+        /* Estilos e Cores (Fácil de personalizar) */
+        :root {
+            --bg-color: #ffe6eb;
+            --text-color: #333;
+            --primary-color: #ff4d79;
+            --yes-btn: #4CAF50;
+            --no-btn: #f44336;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Importante para o botão não gerar barra de rolagem */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Imagens e Textos */
+        img.gif-imagem {
+            max-width: 200px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Botões Iniciais */
+        .btn-group {
+            position: relative;
+            height: 100px; /* Espaço para o botão fujão se mover perto do Sim */
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #btn-yes {
+            background-color: var(--yes-btn);
+            color: white;
+        }
+
+        #btn-yes:active { transform: scale(0.95); }
+
+        #btn-no {
+            background-color: var(--no-btn);
+            color: white;
+            position: absolute;
+            /* Centralizado inicialmente ao lado do sim */
+            left: 60%; 
+        }
+
+        /* Formulário de Agendamento */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        label { font-weight: bold; font-size: 14px; }
+        
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MÚSICA DE FUNDO -->
+    <!-- Coloque o caminho da sua música no 'src' -->
+    <audio id="bg-music" src="sua-musica.mp3" loop preload="auto"></audio>
+
+    <!-- TELA 1: O Convite -->
+    <div id="screen1" class="container">
+        <!-- Substitua pelo link de um GIF fofo ou foto de vocês -->
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGZjZWVxeG9qZnp4aXJ6b2h0eTN2M3A5Z3o0Ynp6b2g3Y3E0b2hxeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BRv0ThflsHCqDrG/giphy.gif" alt="Ursinho fofo" class="gif-imagem" id="main-gif">
+        
+        <h1 id="main-question">Você aceita sair comigo?</h1>
+        
+        <div class="btn-group">
+            <button id="btn-yes">Sim!</button>
+            <button id="btn-no">Não</button>
+        </div>
+    </div>
+
+    <!-- TELA 2: O Calendário e Opções -->
+    <div id="screen2" class="container hidden">
+        <h2>Perfeito! Escolha os detalhes:</h2>
+        
+        <form id="date-form">
+            <!-- A tag name="" é o que vai aparecer no relatório que você vai receber -->
+            <label for="data">Qual dia?</label>
+            <input type="date" id="data" name="Data_Escolhida" required>
+
+            <label for="hora">Que horas?</label>
+            <input type="time" id="hora" name="Hora_Escolhida" required>
+
+            <label for="local">Onde vamos?</label>
+            <select id="local" name="Local_Escolhido" required>
+                <option value="" disabled selected>Selecione uma opção...</option>
+                <option value="Jantar Romântico">Jantar Romântico</option>
+                <option value="Cinema">Cinema</option>
+                <option value="Passeio no Parque">Passeio no Parque</option>
+                <option value="Tomar um Sorvete">Tomar um Sorvete</option>
+                <option value="Surpresa (Você escolhe)">Surpresa (Deixa comigo)</option>
+            </select>
+
+            <button type="submit" id="btn-submit">Confirmar Encontro</button>
+        </form>
+    </div>
+
+    <!-- TELA 3: Confirmação -->
+    <div id="screen3" class="container hidden">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcG8zcHV5bW84cGkxeThqb2hxd2h6M2h2czB1eGk2NzN2aG83Y3E5dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Gato feliz" class="gif-imagem">
+        <h2>Tudo certo!</h2>
+        <p>Já recebi os detalhes aqui. Mal posso esperar! ❤️</p>
+    </div>
+
+    <script>
+        // Referências dos elementos
+        const screen1 = document.getElementById('screen1');
+        const screen2 = document.getElementById('screen2');
+        const screen3 = document.getElementById('screen3');
+        const btnYes = document.getElementById('btn-yes');
+        const btnNo = document.getElementById('btn-no');
+        const dateForm = document.getElementById('date-form');
+        const bgMusic = document.getElementById('bg-music');
+        const btnSubmit = document.getElementById('btn-submit');
+
+        // Lógica do Botão Fujão (Não)
+        const moveButton = () => {
+            // Pega as dimensões da janela e do botão
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const btnWidth = btnNo.offsetWidth;
+            const btnHeight = btnNo.offsetHeight;
+
+            // Calcula posições aleatórias garantindo que o botão não saia da tela
+            const randomX = Math.floor(Math.random() * (windowWidth - btnWidth));
+            const randomY = Math.floor(Math.random() * (windowHeight - btnHeight));
+
+            // Aplica a nova posição
+            btnNo.style.position = 'absolute';
+            btnNo.style.left = `${randomX}px`;
+            btnNo.style.top = `${randomY}px`;
+        };
+
+        // Eventos para desktop (mouse) e mobile (toque)
+        btnNo.addEventListener('mouseover', moveButton);
+        btnNo.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Evita o clique acidental no mobile antes de mover
+            moveButton();
+        });
+
+        // Lógica do Botão Sim
+        btnYes.addEventListener('click', () => {
+            // Toca a música (navegadores exigem interação do usuário antes de tocar áudio)
+            bgMusic.play().catch(err => console.log("Áudio bloqueado pelo navegador."));
+            
+            // Troca as telas
+            screen1.classList.add('hidden');
+            screen2.classList.remove('hidden');
+        });
+
+        // Lógica do Formulário (Enviar dados para você)
+        dateForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Evita que a página recarregue
+            
+            // Muda o texto do botão para dar feedback visual
+            btnSubmit.innerText = "Enviando...";
+            btnSubmit.disabled = true;
+
+            const formData = new FormData(dateForm);
+
+            try {
+                // COLE SUA URL DO FORMSPREE AQUI NA LINHA DE BAIXO
+                const formspreeURL = "https://formspree.io/f/SUA_CHAVE_AQUI"; 
+
+                const response = await fetch(formspreeURL, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    // Troca para a tela final
+                    screen2.classList.add('hidden');
+                    screen3.classList.remove('hidden');
+                } else {
+                    alert("Ops! Houve um problema ao enviar. Mas o encontro tá de pé, me manda mensagem!");
+                    btnSubmit.innerText = "Confirmar Encontro";
+                    btnSubmit.disabled = false;
+                }
+            } catch (error) {
+                alert("Erro de conexão. Me mande os detalhes pelo WhatsApp!");
+            }
+        });
+    </script>
+</body>
+</html>
