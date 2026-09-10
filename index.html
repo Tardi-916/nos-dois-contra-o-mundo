@@ -32,7 +32,6 @@
             position: relative;
         }
 
-        /* Container padrão invisível para posicionamento */
         .container {
             width: 100%;
             height: 100%;
@@ -49,25 +48,22 @@
             display: none !important;
         }
 
-        img.gif-imagem {
-            max-width: 180px;
-            border-radius: 15px;
-            z-index: 2;
-        }
-
-        /* --- TELA 1 (Layout Personalizado) --- */
+        /* --- TELA 1 --- */
         #screen1 {
             justify-content: flex-start;
         }
 
         #screen1 .gif-imagem {
             position: absolute;
-            top: 10%; /* Mais acima */
+            top: 10%;
+            max-width: 180px;
+            border-radius: 15px;
+            z-index: 2;
         }
 
         #screen1 h1 {
             position: absolute;
-            top: 40%; /* Centralizado na tela */
+            top: 40%;
             text-align: center;
             width: 100%;
             font-size: 1.8rem;
@@ -77,18 +73,39 @@
 
         #screen1 .btn-group {
             position: absolute;
-            top: 75%; /* 3/4 do topo de distância */
+            top: 75%;
             width: 100%;
             display: flex;
             justify-content: center;
-            gap: 50px; /* Mais separadas */
+            gap: 50px;
             z-index: 10;
         }
 
-        /* --- TELA 2 (Formulário com Fundo Branco) --- */
+        /* --- TELA 2 --- */
         #screen2 {
             justify-content: center;
             align-items: center;
+        }
+
+        /* Estilo dos GIFs flutuantes do lado de fora */
+        .side-gif {
+            position: absolute;
+            width: clamp(120px, 25vw, 220px); /* Ficam maiores que antes */
+            border-radius: 15px;
+            z-index: 0; /* Ficam atrás da caixa principal */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .left-gif {
+            left: 2%;
+            top: 15%;
+            transform: rotate(-10deg); /* Leve inclinação charmosinha */
+        }
+
+        .right-gif {
+            right: 2%;
+            bottom: 15%;
+            transform: rotate(10deg);
         }
 
         .white-box {
@@ -100,20 +117,8 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(255, 77, 121, 0.2);
             backdrop-filter: blur(5px);
-        }
-
-        .gifs-lado-a-lado {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-
-        .gifs-lado-a-lado .gif-imagem {
-            width: 48%; /* Ocupam metade do espaço cada */
-            max-width: 130px;
-            margin-bottom: 0;
+            position: relative;
+            z-index: 2; /* Garante que a caixa fique acima dos GIFs caso se toquem */
         }
 
         .white-box h2 {
@@ -127,6 +132,12 @@
             justify-content: center;
             text-align: center;
             padding: 20px;
+        }
+        
+        #screen3 .gif-imagem {
+            max-width: 180px;
+            border-radius: 15px;
+            z-index: 2;
         }
 
         #screen3 h2 {
@@ -216,16 +227,12 @@
         </div>
     </div>
 
-    <!-- TELA 2 (Com a caixa branca centralizada) -->
+    <!-- TELA 2 -->
     <div id="screen2" class="container hidden">
+        <!-- GIF Esquerda flutuante -->
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjR6cTVpd3AwcXh6MXIzeWV4MWo3dDhyc2ZzZ281aHA0MGY0ZmhkYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VbnUQpnihPSIgIXuZv/giphy.gif" alt="Gatinho 1" class="side-gif left-gif">
+        
         <div class="white-box">
-            <div class="gifs-lado-a-lado">
-                <!-- Gatinho Esquerda -->
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjR6cTVpd3AwcXh6MXIzeWV4MWo3dDhyc2ZzZ281aHA0MGY0ZmhkYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VbnUQpnihPSIgIXuZv/giphy.gif" alt="Gatinho 1" class="gif-imagem">
-                <!-- Gatinho Direita (Adicionado um novo gif fofo) -->
-                <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="Gatinho 2" class="gif-imagem">
-            </div>
-            
             <h2>Perfeito! Escolha os detalhes:</h2>
             
             <form id="date-form">
@@ -247,6 +254,9 @@
                 <button type="submit" id="btn-submit">Confirmar Encontro</button>
             </form>
         </div>
+
+        <!-- GIF Direita flutuante -->
+        <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="Gatinho 2" class="side-gif right-gif">
     </div>
 
     <!-- TELA 3 -->
@@ -266,7 +276,6 @@
         const bgMusic = document.getElementById('bg-music');
         const btnSubmit = document.getElementById('btn-submit');
 
-        // Tenta tocar a música assim que houver qualquer interação na tela inicial
         document.body.addEventListener('click', () => {
             if (bgMusic.paused) {
                 bgMusic.play().catch(() => console.log("Aguardando interação."));
@@ -280,7 +289,7 @@
         }, { once: true });
 
         let yesScale = 1;
-        const maxScale = 7; // Agora cresce até 7 vezes o tamanho original
+        const maxScale = 7; 
         let isTeleporting = false; 
 
         const teleportButton = (e) => {
@@ -289,7 +298,6 @@
             if (isTeleporting) return;
             isTeleporting = true;
             
-            // Aumenta em passos maiores para chegar ao tamanho 7 em poucos toques
             if (yesScale < maxScale) {
                 yesScale += 1.5; 
                 if (yesScale > maxScale) yesScale = maxScale;
@@ -325,7 +333,6 @@
         btnNo.addEventListener('touchstart', teleportButton);
 
         btnYes.addEventListener('click', () => {
-            // Garante que a música toque caso não tenha tocado antes
             bgMusic.play().catch(err => console.log("Áudio bloqueado pelo navegador."));
             screen1.classList.add('hidden');
             screen2.classList.remove('hidden');
