@@ -5,32 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Um Convite Especial</title>
     <style>
+        /* Ambientação Romântica */
         :root {
-            --bg-color: #ffe6eb;
-            --text-color: #333;
+            /* Fundo com gradiente suave em tons de rosa e pêssego */
+            --bg-gradient: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+            --text-color: #612340;
             --primary-color: #ff4d79;
-            --yes-btn: #4CAF50;
-            --no-btn: #f44336;
+            --yes-btn: #ff4d79; /* Rosa vibrante */
+            --no-btn: #b3b3b3;  /* Cinza neutro */
+            --card-bg: rgba(255, 255, 255, 0.85);
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            background: var(--bg-gradient);
             color: var(--text-color);
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden; /* Fundamental para o botão 'Sim' não quebrar a tela ao crescer */
+            overflow: hidden;
         }
 
+        /* Efeito de cartão elegante */
         .container {
-            width: 100%;
+            width: 90%;
             max-width: 400px;
-            padding: 20px;
+            padding: 30px 25px;
             text-align: center;
             box-sizing: border-box;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 77, 121, 0.2);
+            backdrop-filter: blur(5px);
             z-index: 1;
         }
 
@@ -39,20 +47,17 @@
         }
 
         img.gif-imagem {
-            max-width: 200px;
+            max-width: 180px;
             border-radius: 15px;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 2;
+            margin-bottom: 15px;
         }
 
         h1, h2 {
             margin-bottom: 20px;
-            position: relative;
-            z-index: 2;
+            font-size: 1.6rem;
+            color: #ff4d79;
         }
 
-        /* Centralização inicial dos botões */
         .btn-group {
             display: flex;
             justify-content: center;
@@ -68,47 +73,56 @@
             border: none;
             border-radius: 25px;
             cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         #btn-yes {
             background-color: var(--yes-btn);
             color: white;
-            transition: transform 0.3s ease; /* Animação suave de crescimento */
-            z-index: 5; /* Fica acima dos outros elementos quando crescer */
+            transition: transform 0.3s ease;
+            z-index: 5;
         }
 
         #btn-no {
             background-color: var(--no-btn);
             color: white;
-            transition: left 0.2s ease, top 0.2s ease;
+            transition: left 0.2s ease, top 0.2s ease, opacity 0.2s ease;
             z-index: 10;
         }
 
+        /* Estilo do Formulário */
         form {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             text-align: left;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         label { font-weight: bold; font-size: 14px; }
         
         input, select {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 12px;
+            border: 2px solid #ffccd5;
+            border-radius: 10px;
+            font-size: 15px;
             font-family: inherit;
+            color: #333;
+            background-color: #fff9fa;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary-color);
         }
 
         button[type="submit"] {
             background-color: var(--primary-color);
             color: white;
-            margin-top: 10px;
+            margin-top: 15px;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 15px;
         }
     </style>
 </head>
@@ -118,6 +132,7 @@
 
     <!-- TELA 1 -->
     <div id="screen1" class="container">
+        <!-- GIF Incial -->
         <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGZjZWVxeG9qZnp4aXJ6b2h0eTN2M3A5Z3o0Ynp6b2g3Y3E0b2hxeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BRv0ThflsHCqDrG/giphy.gif" alt="Ursinho fofo" class="gif-imagem">
         
         <h1>Você aceita sair comigo?</h1>
@@ -130,7 +145,11 @@
 
     <!-- TELA 2 -->
     <div id="screen2" class="container hidden">
+        <!-- GIF Gatinho Fofo -->
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjR6cTVpd3AwcXh6MXIzeWV4MWo3dDhyc2ZzZ281aHA0MGY0ZmhkYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VbnUQpnihPSIgIXuZv/giphy.gif" alt="Gatinho fofo" class="gif-imagem">
+        
         <h2>Perfeito! Escolha os detalhes:</h2>
+        
         <form id="date-form">
             <label for="data">Qual dia?</label>
             <input type="date" id="data" name="Data_Escolhida" required>
@@ -143,7 +162,7 @@
                 <option value="" disabled selected>Selecione uma opção...</option>
                 <option value="Jantar Romântico">Jantar Romântico</option>
                 <option value="Cinema">Cinema</option>
-                <option value="Passeio no Parque">Passeio no Parque</option>
+                <option value="Caminhada">Caminhada</option> <!-- Opção alterada -->
                 <option value="Tomar um Sorvete">Tomar um Sorvete</option>
                 <option value="Surpresa (Você escolhe)">Surpresa (Deixa comigo)</option>
             </select>
@@ -153,6 +172,7 @@
 
     <!-- TELA 3 -->
     <div id="screen3" class="container hidden">
+        <!-- GIF Finalização -->
         <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcG8zcHV5bW84cGkxeThqb2hxd2h6M2h2czB1eGk2NzN2aG83Y3E5dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Gato feliz" class="gif-imagem">
         <h2>Tudo certo!</h2>
         <p>Já recebi os detalhes aqui. Mal posso esperar! ❤️</p>
@@ -168,43 +188,40 @@
         const bgMusic = document.getElementById('bg-music');
         const btnSubmit = document.getElementById('btn-submit');
 
-        let yesScale = 1; // Controla o tamanho do botão SIM
+        let yesScale = 1;
 
-        const moveButton = () => {
-            // Se for a primeira vez que foge, muda para fixed para sair do flexbox
-            if (btnNo.style.position !== 'fixed') {
-                btnNo.style.position = 'fixed';
-            }
-
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
-            const btnWidth = btnNo.offsetWidth;
-            const btnHeight = btnNo.offsetHeight;
-
-            // Mantém o botão dentro dos limites visíveis da tela
-            const randomX = Math.floor(Math.random() * (windowWidth - btnWidth));
-            const randomY = Math.floor(Math.random() * (windowHeight - btnHeight));
-
-            btnNo.style.left = `${randomX}px`;
-            btnNo.style.top = `${randomY}px`;
-
-            // Aumenta o tamanho do botão SIM a cada tentativa
-            yesScale += 0.3; // Você pode aumentar/diminuir esse valor para crescer mais rápido ou devagar
+        const teleportButton = (e) => {
+            e.preventDefault(); 
+            
+            yesScale += 0.3; 
             btnYes.style.transform = `scale(${yesScale})`;
+
+            btnNo.style.opacity = '0';
+            btnNo.style.pointerEvents = 'none'; 
+
+            setTimeout(() => {
+                if (btnNo.style.position !== 'fixed') {
+                    btnNo.style.position = 'fixed';
+                }
+
+                const margin = 30; 
+                
+                const maxX = window.innerWidth - btnNo.offsetWidth - margin;
+                const maxY = window.innerHeight - btnNo.offsetHeight - margin;
+
+                const randomX = Math.max(margin, Math.floor(Math.random() * maxX));
+                const randomY = Math.max(margin, Math.floor(Math.random() * maxY));
+
+                btnNo.style.left = `${randomX}px`;
+                btnNo.style.top = `${randomY}px`;
+                
+                btnNo.style.opacity = '1';
+                btnNo.style.pointerEvents = 'auto';
+            }, 200); 
         };
 
-        // Fogem quando o cursor passa por cima (PC) ou ao iniciar o toque (Mobile)
-        btnNo.addEventListener('mouseover', moveButton);
-        btnNo.addEventListener('touchstart', (e) => {
-            e.preventDefault(); 
-            moveButton();
-        });
-
-        // Se a pessoa for um ninja e conseguir clicar, o botão some
-        btnNo.addEventListener('click', (e) => {
-            e.preventDefault();
-            btnNo.style.display = 'none';
-        });
+        btnNo.addEventListener('click', teleportButton);
+        btnNo.addEventListener('touchstart', teleportButton);
 
         btnYes.addEventListener('click', () => {
             bgMusic.play().catch(err => console.log("Áudio bloqueado pelo navegador."));
@@ -221,7 +238,7 @@
             const formData = new FormData(dateForm);
 
             try {
-                // LEMBRE DE COLOCAR SUA URL DO FORMSPREE AQUI
+                // INSIRA SUA URL DO FORMSPREE AQUI
                 const formspreeURL = "https://formspree.io/f/SUA_CHAVE_AQUI"; 
 
                 const response = await fetch(formspreeURL, {
